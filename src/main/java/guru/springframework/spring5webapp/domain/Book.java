@@ -1,8 +1,16 @@
 package guru.springframework.spring5webapp.domain;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by jt on 12/22/19.
@@ -10,80 +18,121 @@ import java.util.Set;
 @Entity
 public class Book {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+//params
 
-    private String title;
-    private String isbn;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
-    @ManyToMany
-    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Author> authors = new HashSet<>();
+	private String title;
+	private String isbn;
 
-    public Book() {
-    }
+	// many books can have many authors
+	@ManyToMany
+	@JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
+	private Set<Author> authors = new HashSet<>();
 
-    public Book(String title, String isbn) {
-        this.title = title;
-        this.isbn = isbn;
-    }
+	// many books can have only 1 publisher
+	@ManyToOne
+	private Publisher publisher;
 
-    public Long getId() {
-        return id;
-    }
+//constructors	
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	// empty constructor
+	public Book() {
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	// constructor
+	public Book(String title, String isbn) {
+		this.title = title;
+		this.isbn = isbn;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+//getter setter
 
-    public String getIsbn() {
-        return isbn;
-    }
+	// get ID
+	public Long getId() {
+		return id;
+	}
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
+	// set ID
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Set<Author> getAuthors() {
-        return authors;
-    }
+	// get title
+	public String getTitle() {
+		return title;
+	}
 
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
-    }
+	// set title
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", isbn='" + isbn + '\'' +
-                ", authors=" + authors +
-                '}';
-    }
+	// get isbn
+	public String getIsbn() {
+		return isbn;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	// set isbn
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
 
-        Book book = (Book) o;
+//relations getter setters
 
-        return id != null ? id.equals(book.id) : book.id == null;
-    }
+	// Many-to-Many get author
+	public Set<Author> getAuthors() {
+		return authors;
+	}
 
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
+	// Many-to-Many set authors
+	public void setAuthors(Set<Author> authors) {
+		this.authors = authors;
+	}
+
+	// Many-to-one get publisher
+	// Many-to-one get publisher
+	// Many-to-one get publisher
+	// Many-to-one get publisher
+	// Many-to-one get publisher
+	// Many-to-one get publisher
+	/**
+	 * @return the publisher
+	 */
+	public Publisher getPublisher() {
+		return publisher;
+	}
+
+	// Many-to-one set publisher
+	/**
+	 * @param publisher the publisher to set
+	 */
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
+	}
+
+	@Override
+	public String toString() {
+		return "Book{" + "id=" + id + ", title='" + title + '\'' + ", isbn='" + isbn + '\'' + ", authors=" + authors
+				+ '}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		Book book = (Book) o;
+
+		return id != null ? id.equals(book.id) : book.id == null;
+	}
+
+	@Override
+	public int hashCode() {
+		return id != null ? id.hashCode() : 0;
+	}
 }
